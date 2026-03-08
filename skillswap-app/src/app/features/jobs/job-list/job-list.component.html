@@ -1,0 +1,75 @@
+<div class="container py-4">
+  <h2 class="mb-4">Browse Jobs</h2>
+
+  <!-- Search Filters -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label">Category</label>
+          <input type="text" class="form-control" [(ngModel)]="filterCategory" placeholder="e.g. Design" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Status</label>
+          <select class="form-select" [(ngModel)]="filterStatus">
+            <option value="">All</option>
+            <option value="open">Open</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Min Budget ($)</label>
+          <input type="number" class="form-control" [(ngModel)]="filterMinBudget" placeholder="0" />
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary w-100" (click)="onSearch()">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-alert *ngIf="errorMessage" [message]="errorMessage" (dismissed)="errorMessage = null"></app-alert>
+
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <!-- Jobs Table -->
+  <div *ngIf="!loading">
+    <div *ngIf="jobs.length === 0" class="alert alert-info">No jobs found. Try adjusting your filters.</div>
+
+    <div *ngIf="jobs.length > 0" class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Budget</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobs">
+            <td>{{ job.title }}</td>
+            <td>{{ job.category }}</td>
+            <td>${{ job.budget }}</td>
+            <td>
+              <span class="badge"
+                [class.bg-success]="job.status === 'open'"
+                [class.bg-warning]="job.status === 'in_progress'"
+                [class.bg-secondary]="job.status === 'completed'">
+                {{ job.status }}
+              </span>
+            </td>
+            <td>
+              <a [routerLink]="['/jobs', job.id]" class="btn btn-sm btn-outline-primary">View</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

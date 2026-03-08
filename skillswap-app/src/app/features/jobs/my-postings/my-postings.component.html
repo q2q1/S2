@@ -1,0 +1,50 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Job Postings</h2>
+    <a routerLink="/jobs/create" class="btn btn-success">+ Post New Job</a>
+  </div>
+
+  <app-alert *ngIf="errorMessage" [message]="errorMessage" (dismissed)="errorMessage = null"></app-alert>
+
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!loading">
+    <div *ngIf="jobs.length === 0" class="alert alert-info">
+      You haven't posted any jobs yet. <a routerLink="/jobs/create">Post your first job!</a>
+    </div>
+
+    <div *ngIf="jobs.length > 0" class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Budget</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobs">
+            <td>{{ job.title }}</td>
+            <td>{{ job.category }}</td>
+            <td>${{ job.budget }}</td>
+            <td>
+              <span class="badge"
+                [class.bg-success]="job.status === 'open'"
+                [class.bg-warning]="job.status === 'in_progress'"
+                [class.bg-secondary]="job.status === 'completed'">
+                {{ job.status }}
+              </span>
+            </td>
+            <td>
+              <a [routerLink]="['/jobs', job.id]" class="btn btn-sm btn-outline-primary">View</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

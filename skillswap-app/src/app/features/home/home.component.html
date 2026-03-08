@@ -1,0 +1,41 @@
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold text-primary">SkillSwap</h1>
+    <p class="lead text-muted">Connect with skilled freelancers. Get your projects done.</p>
+  </div>
+
+  <!-- Platform Stats -->
+  <div *ngIf="stats" class="row text-center mb-5">
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm p-3">
+        <h2 class="text-primary">{{ stats.total_users }}</h2>
+        <p class="text-muted mb-0">Registered Users</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm p-3">
+        <h2 class="text-success">{{ stats.active_jobs }}</h2>
+        <p class="text-muted mb-0">Active Jobs</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm p-3">
+        <h2 class="text-warning">{{ stats.total_value_moved | currency }}</h2>
+        <p class="text-muted mb-0">Total Value Moved</p>
+      </div>
+    </div>
+  </div>
+
+  <app-alert *ngIf="errorMessage" [message]="errorMessage" (dismissed)="errorMessage = null"></app-alert>
+
+  <!-- CTA Buttons -->
+  <div class="text-center">
+    <ng-container *ngIf="authService.currentUser$ | async; else guestCta">
+      <a routerLink="/dashboard" class="btn btn-primary btn-lg me-2">Go to Dashboard</a>
+    </ng-container>
+    <ng-template #guestCta>
+      <a routerLink="/register" class="btn btn-primary btn-lg me-2">Get Started</a>
+      <a routerLink="/login" class="btn btn-outline-primary btn-lg">Login</a>
+    </ng-template>
+  </div>
+</div>

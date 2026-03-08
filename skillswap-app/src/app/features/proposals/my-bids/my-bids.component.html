@@ -1,0 +1,48 @@
+<div class="container py-4">
+  <h2 class="mb-4">My Bids</h2>
+
+  <app-alert *ngIf="errorMessage" [message]="errorMessage" (dismissed)="errorMessage = null"></app-alert>
+  <app-alert *ngIf="successMessage" [message]="successMessage" type="success" (dismissed)="successMessage = null"></app-alert>
+
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!loading">
+    <div *ngIf="proposals.length === 0" class="alert alert-info">
+      You haven't submitted any proposals yet.
+    </div>
+
+    <div *ngFor="let proposal of proposals" class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h6 class="mb-1">
+              <!-- Show job title if available, otherwise show job ID -->
+              <strong>{{ proposal.job?.title || ('Job #' + proposal.job_id) }}</strong>
+            </h6>
+            <p class="mb-1 text-muted">{{ proposal.cover_letter }}</p>
+            <p class="mb-0">
+              <span class="text-success fw-bold me-3">${{ proposal.price }}</span>
+              <span class="badge"
+                [class.bg-warning]="proposal.status === 'pending'"
+                [class.bg-success]="proposal.status === 'accepted'"
+                [class.bg-danger]="proposal.status === 'rejected'">
+                {{ proposal.status }}
+              </span>
+            </p>
+          </div>
+          <div>
+            <!-- Only show withdraw button for pending proposals -->
+            <button
+              *ngIf="proposal.status === 'pending'"
+              class="btn btn-sm btn-outline-danger"
+              (click)="withdrawBid(proposal.id)">
+              Withdraw
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
