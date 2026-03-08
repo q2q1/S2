@@ -6,10 +6,10 @@ A student-friendly Angular 17 frontend for the SkillSwap REST API. Browse jobs, 
 
 ## Tech Stack
 
-- **Angular 17** — standalone components, functional guards & interceptors
+- **Angular 19** — standalone components, functional guards & interceptors
 - **Bootstrap 5** — CDN-based styling (no install needed)
 - **RxJS** — reactive data streams
-- **TypeScript 5.2**
+- **TypeScript 5.6**
 
 ---
 
