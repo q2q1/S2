@@ -1,0 +1,60 @@
+<div class="container py-4">
+  <app-alert *ngIf="errorMessage" [message]="errorMessage" (dismissed)="errorMessage = null"></app-alert>
+
+  <div *ngIf="user">
+    <h2 class="mb-1">Welcome back, <strong>{{ user.name }}</strong>! 👋</h2>
+    <p class="text-muted">&#64;{{ user.username }}</p>
+
+    <!-- User Stats -->
+    <div class="row my-4">
+      <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-3">
+          <h4 class="text-warning">⭐ {{ user.rating_avg | number:'1.1-1' }}</h4>
+          <p class="text-muted mb-0">Average Rating</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-3">
+          <h4 class="text-success">{{ user.completed_jobs }}</h4>
+          <p class="text-muted mb-0">Completed Jobs</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-3">
+          <h4 class="text-primary">{{ user.skills.length }}</h4>
+          <p class="text-muted mb-0">Skills Listed</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="mb-4">
+      <h5>Your Skills</h5>
+      <span *ngFor="let skill of user.skills" class="skill-badge me-1">{{ skill }}</span>
+      <span *ngIf="user.skills.length === 0" class="text-muted">No skills added yet.</span>
+    </div>
+
+    <!-- Quick Links -->
+    <h5 class="mb-3">Quick Links</h5>
+    <div class="row g-3">
+      <div class="col-sm-6 col-md-3">
+        <a routerLink="/jobs" class="btn btn-outline-primary w-100">Browse Jobs</a>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <a routerLink="/jobs/create" class="btn btn-outline-success w-100">Post a Job</a>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <a routerLink="/my-postings" class="btn btn-outline-info w-100">My Postings</a>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <a routerLink="/my-bids" class="btn btn-outline-warning w-100">My Bids</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div *ngIf="!user && !errorMessage" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2 text-muted">Loading dashboard...</p>
+  </div>
+</div>
